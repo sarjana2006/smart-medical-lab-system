@@ -1,0 +1,502 @@
+/* =========================
+   GENERAL
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f8f9;
+  color: #263238;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+
+/* =========================
+   LOGIN / REGISTER PAGE
+========================= */
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #e8f7f5, #f4fbfa);
+  padding: 30px;
+}
+
+.login-card {
+  width: 900px;
+  min-height: 560px;
+  display: flex;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================
+   LEFT WELCOME SECTION
+========================= */
+
+.welcome-section {
+  width: 45%;
+  padding: 55px 40px;
+  background: linear-gradient(145deg, #087f8c, #075e68);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.medical-icon {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: white;
+  color: #087f8c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+.welcome-section h1 {
+  font-size: 34px;
+  margin: 0 0 15px;
+}
+
+.welcome-section p {
+  font-size: 16px;
+  line-height: 1.7;
+  opacity: 0.95;
+}
+
+.feature-list {
+  margin-top: 25px;
+}
+
+.feature-list div {
+  margin: 14px 0;
+  font-size: 15px;
+}
+
+
+/* =========================
+   LOGIN FORM
+========================= */
+
+.form-section {
+  width: 55%;
+  padding: 50px 55px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-section h2 {
+  margin: 0;
+  font-size: 30px;
+  color: #174a52;
+}
+
+.form-subtitle {
+  color: #78909c;
+  margin: 8px 0 30px;
+}
+
+.form-section form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-section label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 7px;
+  color: #455a64;
+}
+
+.form-section input {
+  padding: 13px 15px;
+  margin-bottom: 18px;
+  border: 1px solid #cfd8dc;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+}
+
+.form-section input:focus {
+  border-color: #087f8c;
+  box-shadow: 0 0 0 2px rgba(8, 127, 140, 0.1);
+}
+
+.main-button {
+  border: none;
+  padding: 13px;
+  border-radius: 8px;
+  background: #087f8c;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.main-button:hover {
+  background: #075e68;
+  transform: translateY(-1px);
+}
+
+.message {
+  margin-top: 15px;
+  padding: 10px;
+  background: #edf8f5;
+  color: #087f8c;
+  border-radius: 7px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.switch-text {
+  margin-top: 20px;
+  text-align: center;
+  color: #607d8b;
+}
+
+.link-button {
+  border: none;
+  background: none;
+  color: #087f8c;
+  font-weight: bold;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard-container {
+  min-height: 100vh;
+  background: #f4f8f9;
+  padding-bottom: 50px;
+}
+
+.dashboard-header {
+  background: white;
+  padding: 22px 55px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  color: #075e68;
+  font-size: 28px;
+}
+
+.dashboard-header p {
+  margin: 5px 0 0;
+  color: #78909c;
+}
+
+.logout-button {
+  border: none;
+  background: #087f8c;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 7px;
+  font-weight: bold;
+}
+
+.logout-button:hover {
+  background: #075e68;
+}
+
+.welcome-box {
+  max-width: 1100px;
+  margin: 35px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.welcome-box h2 {
+  margin-top: 0;
+  color: #174a52;
+}
+
+.welcome-box p {
+  color: #607d8b;
+}
+
+
+/* =========================
+   DASHBOARD CARDS
+========================= */
+
+.dashboard-grid {
+  max-width: 1100px;
+  margin: auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.dashboard-card {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  border: 1px solid #e0e8ea;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: 0.2s;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.09);
+}
+
+.dashboard-card h3 {
+  margin-top: 0;
+  color: #075e68;
+}
+
+.dashboard-card p {
+  color: #607d8b;
+  line-height: 1.5;
+  min-height: 45px;
+}
+
+.dashboard-card button {
+  border: none;
+  background: #087f8c;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 7px;
+  font-weight: bold;
+}
+
+.dashboard-card button:hover {
+  background: #075e68;
+}
+
+
+/* ==================================================
+   TEST LIST PAGE
+================================================== */
+
+.tests-page {
+  min-height: 100vh;
+  background: #f4f8f9;
+  padding: 30px 50px 60px;
+}
+
+
+/* =========================
+   TEST PAGE HEADER
+========================= */
+
+.tests-header {
+  max-width: 1100px;
+  margin: 0 auto 35px;
+  text-align: center;
+}
+
+.tests-header h1 {
+  margin: 25px 0 5px;
+  font-size: 34px;
+  color: #075e68;
+}
+
+.tests-header p {
+  margin: 0;
+  color: #607d8b;
+  font-size: 16px;
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.back-button {
+  border: 1px solid #b0bec5;
+  background: white;
+  color: #075e68;
+  padding: 11px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.back-button:hover {
+  background: #e8f7f5;
+  border-color: #087f8c;
+}
+
+
+/* =========================
+   TEST CARDS
+========================= */
+
+.test-list-container {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+}
+
+
+/* Individual Test Card */
+
+.test-card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  border: 1px solid #e1eaec;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+
+/* Hover effect */
+
+.test-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-color: #b8dfe2;
+}
+
+
+/* Test name */
+
+.test-card h2 {
+  margin: 0 0 14px;
+  font-size: 22px;
+  color: #075e68;
+}
+
+
+/* Description */
+
+.test-card p {
+  margin: 9px 0;
+  color: #607d8b;
+  line-height: 1.5;
+  font-size: 15px;
+}
+
+
+/* Preparation / Price / Fasting */
+
+.test-card strong {
+  color: #37474f;
+}
+
+
+/* Book Test Button */
+
+.test-card .main-button {
+  margin-top: 18px;
+  width: 130px;
+  padding: 11px 15px;
+  font-size: 14px;
+}
+
+
+/* =========================
+   LOADING / ERROR
+========================= */
+
+.test-list-container + h2 {
+  text-align: center;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 850px) {
+
+  .login-card {
+    width: 95%;
+    flex-direction: column;
+  }
+
+  .welcome-section,
+  .form-section {
+    width: 100%;
+  }
+
+  .welcome-section {
+    padding: 35px;
+  }
+
+  .form-section {
+    padding: 35px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .test-list-container {
+    grid-template-columns: 1fr;
+  }
+
+  .tests-page {
+    padding: 25px 20px 50px;
+  }
+}
+
+
+@media (max-width: 550px) {
+
+  .app-container {
+    padding: 15px;
+  }
+
+  .welcome-section h1 {
+    font-size: 28px;
+  }
+
+  .dashboard-header {
+    padding: 18px 20px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 22px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tests-header h1 {
+    font-size: 27px;
+  }
+
+  .test-card {
+    padding: 22px;
+  }
+}

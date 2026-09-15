@@ -1,0 +1,168 @@
+.test-page {
+    min-height: 100vh;
+    background: #f4f8f8;
+    padding: 35px 60px 60px;
+  }
+  
+  /* HEADER */
+  
+  .test-header {
+    max-width: 1150px;
+    margin: 0 auto 35px;
+    text-align: center;
+  }
+  
+  .test-header h1 {
+    color: #12343b;
+    font-size: 32px;
+    margin: 15px 0 6px;
+  }
+  
+  .test-header p {
+    color: #087f8c;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  .test-header span {
+    color: #6b7779;
+    font-size: 14px;
+  }
+  
+  /* BACK BUTTON */
+  
+  .back-dashboard-button {
+    border: 1px solid #087f8c;
+    background: white;
+    color: #087f8c;
+    padding: 10px 20px;
+    border-radius: 7px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .back-dashboard-button:hover {
+    background: #087f8c;
+    color: white;
+  }
+  
+  /* TEST GRID */
+  
+  .test-list-container {
+    max-width: 1150px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+  
+  /* TEST CARD */
+  
+  .test-card {
+    background: white;
+    border: 1px solid #dce8e9;
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 5px 18px rgba(0, 70, 80, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .test-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 70, 80, 0.13);
+  }
+  
+  .test-card h2 {
+    color: #12343b;
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+  
+  .test-description {
+    color: #59686b;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  /* DETAILS */
+  
+  .test-details {
+    border-top: 1px solid #e4eeee;
+    border-bottom: 1px solid #e4eeee;
+    padding: 12px 0;
+    margin-bottom: 20px;
+  }
+  
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 8px 0;
+    font-size: 14px;
+  }
+  
+  .detail-row strong {
+    color: #37474f;
+    min-width: 90px;
+  }
+  
+  .detail-row span {
+    color: #647276;
+    text-align: right;
+  }
+  
+  .detail-row .test-price {
+    color: #087f8c;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  /* BOOK BUTTON */
+  
+  .book-test-button {
+    width: 100%;
+    border: none;
+    padding: 12px;
+    border-radius: 7px;
+    background: #087f8c;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .book-test-button:hover {
+    background: #075e68;
+  }
+  
+  /* LOADING */
+  
+  .test-loading,
+  .test-error {
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #087f8c;
+    font-size: 20px;
+    font-weight: 600;
+  }
+  
+  /* MOBILE */
+  
+  @media (max-width: 800px) {
+  
+    .test-page {
+      padding: 25px 20px 40px;
+    }
+  
+    .test-list-container {
+      grid-template-columns: 1fr;
+    }
+  
+    .test-header h1 {
+      font-size: 27px;
+    }
+  }
