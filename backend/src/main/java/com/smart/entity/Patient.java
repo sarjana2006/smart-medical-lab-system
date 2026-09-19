@@ -22,6 +22,9 @@ public class Patient {
 
     private String phone;
 
+    @Column(nullable = false)
+    private String role = "PATIENT";
+
     private LocalDateTime createdAt = LocalDateTime.now();
 
     // Getters and Setters
@@ -64,6 +67,14 @@ public class Patient {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -22,7 +22,6 @@ public class PatientService {
     // Patient Registration
     public Patient register(Patient patient) {
 
-        // Check whether email already exists
         Optional<Patient> existingPatient =
                 patientRepository.findByEmail(patient.getEmail());
 
@@ -30,30 +29,36 @@ public class PatientService {
             throw new RuntimeException("Email already registered");
         }
 
-        // Hash password using BCrypt
         String encodedPassword =
                 passwordEncoder.encode(patient.getPassword());
 
         patient.setPassword(encodedPassword);
 
-        // Save patient into MySQL
+        // New registrations are Patient users
+        patient.setRole("PATIENT");
+
         return patientRepository.save(patient);
     }
 
     // Patient Login
-    public boolean login(String email, String password) {
+    public Optional<Patient> login(String email, String password) {
 
         Optional<Patient> patient =
                 patientRepository.findByEmail(email);
 
         if (patient.isPresent()) {
 
-            return passwordEncoder.matches(
-                    password,
-                    patient.get().getPassword()
-            );
+            boolean passwordMatches =
+                    passwordEncoder.matches(
+                            password,
+                            patient.get().getPassword()
+                    );
+
+            if (passwordMatches) {
+                return patient;
+            }
         }
 
-        return false;
+        return Optional.empty();
     }
 }

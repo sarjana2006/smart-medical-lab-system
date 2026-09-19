@@ -10,13 +10,9 @@ import ResultTrends from "./ResultTrends";
 import FollowUps from "./FollowUps";
 
 function App() {
-
-  // =========================
-  // PAGE STATES
-  // =========================
-
   const [isLogin, setIsLogin] = useState(true);
   const [isDashboard, setIsDashboard] = useState(false);
+  const [userRole, setUserRole] = useState("");
 
   const [showTests, setShowTests] = useState(false);
   const [showBookings, setShowBookings] = useState(false);
@@ -25,18 +21,10 @@ function App() {
   const [showResultTrends, setShowResultTrends] = useState(false);
   const [showFollowUps, setShowFollowUps] = useState(false);
 
-  // =========================
-  // LOGIN DATA
-  // =========================
-
   const [loginData, setLoginData] = useState({
     email: "",
     password: ""
   });
-
-  // =========================
-  // REGISTER DATA
-  // =========================
 
   const [registerData, setRegisterData] = useState({
     name: "",
@@ -45,27 +33,23 @@ function App() {
     password: ""
   });
 
+  const [selectedRole, setSelectedRole] = useState("");
   const [message, setMessage] = useState("");
 
-  // =========================
   // LOGIN
-  // =========================
-
   const handleLogin = async (e) => {
-
     e.preventDefault();
-
     setMessage("");
 
     try {
-
       const response = await axios.post(
         "http://localhost:8080/patient/login",
         null,
         {
           params: {
             email: loginData.email,
-            password: loginData.password
+            password: loginData.password,
+            role: selectedRole
           }
         }
       );
@@ -74,6 +58,7 @@ function App() {
 
         localStorage.setItem("token", response.data.token);
 
+        setUserRole(response.data.role);
         setIsDashboard(true);
 
         setShowTests(false);
@@ -85,40 +70,30 @@ function App() {
 
       } else {
 
-        setMessage("Invalid email or password");
-
+        // Show backend message
+        setMessage(response.data.message);
       }
 
     } catch (error) {
 
       console.error(error);
-
-      setMessage("Invalid email or password");
+      setMessage("Login failed. Please try again.");
 
     }
   };
 
-  // =========================
   // REGISTER
-  // =========================
-
   const handleRegister = async (e) => {
-
     e.preventDefault();
-
     setMessage("");
 
     try {
-
       await axios.post(
         "http://localhost:8080/patient/register",
         registerData
       );
 
-      setMessage(
-        "Registration successful! Please login."
-      );
-
+      setMessage("Registration successful! Please login.");
       setIsLogin(true);
 
       setRegisterData({
@@ -131,127 +106,80 @@ function App() {
     } catch (error) {
 
       console.error(error);
-
-      setMessage(
-        "Registration failed. Please try again."
-      );
+      setMessage("Registration failed. Please try again.");
 
     }
   };
 
-  // =========================
-  // SAMPLE TRACKING PAGE
-  // =========================
-
+  // SAMPLE TRACKING
   if (showTracking) {
-
     return (
       <SampleTracking
         patientId={1}
         onBack={() => setShowTracking(false)}
       />
     );
-
   }
 
-  // =========================
-  // REPORTS PAGE
-  // =========================
-
+  // REPORTS
   if (showReports) {
-
     return (
       <Reports
         patientId={1}
         onBack={() => setShowReports(false)}
       />
     );
-
   }
 
-  // =========================
-  // RESULT TRENDS PAGE
-  // =========================
-
+  // RESULT TRENDS
   if (showResultTrends) {
-
     return (
       <ResultTrends
         reportId={1}
         onBack={() => setShowResultTrends(false)}
       />
     );
-
   }
 
-  // =========================
-  // MY BOOKINGS PAGE
-  // =========================
-
+  // MY BOOKINGS
   if (showBookings) {
-
     return (
       <MyBookings
         patientId={1}
         onBack={() => setShowBookings(false)}
       />
     );
-
   }
 
-  // =========================
-  // TEST LIST PAGE
-  // =========================
-
+  // TEST LIST
   if (showTests) {
-
     return (
       <TestList
         onBack={() => setShowTests(false)}
       />
     );
-
   }
 
-  // =========================
-  // FOLLOW UPS PAGE
-  // =========================
-
+  // FOLLOW UPS
   if (showFollowUps) {
-
     return (
       <FollowUps
         patientId={1}
         onBack={() => setShowFollowUps(false)}
       />
     );
-
   }
 
-  // =========================
-  // PATIENT DASHBOARD
-  // =========================
-
-  if (isDashboard) {
-
+  // ADMIN DASHBOARD
+  if (isDashboard && userRole === "ADMIN") {
     return (
-
       <div className="dashboard-container">
-
-        {/* DASHBOARD HEADER */}
 
         <div className="dashboard-header">
 
           <div>
-
-            <h1>
-              Smart Medical Lab
-            </h1>
-
-            <p>
-              Patient Dashboard
-            </p>
-
+            <h1>Smart Medical Lab</h1>
+            <p>Admin Dashboard</p>
           </div>
 
           <button
@@ -261,6 +189,117 @@ function App() {
               localStorage.removeItem("token");
 
               setIsDashboard(false);
+              setUserRole("");
+              setSelectedRole("");
+
+              setLoginData({
+                email: "",
+                password: ""
+              });
+
+            }}
+          >
+            Logout
+          </button>
+
+        </div>
+
+        <div className="welcome-box">
+
+          <h2>Welcome to Admin Account</h2>
+
+          <p>
+            Manage laboratory tests, bookings,
+            reports and patient services.
+          </p>
+
+        </div>
+
+        <div className="dashboard-grid">
+
+          <div className="dashboard-card">
+
+            <h3>Manage Tests</h3>
+
+            <p>
+              Add, update and manage laboratory tests.
+            </p>
+
+            <button>
+              Manage Tests
+            </button>
+
+          </div>
+
+          <div className="dashboard-card">
+
+            <h3>Manage Bookings</h3>
+
+            <p>
+              View and manage patient bookings.
+            </p>
+
+            <button>
+              Manage Bookings
+            </button>
+
+          </div>
+
+          <div className="dashboard-card">
+
+            <h3>Manage Reports</h3>
+
+            <p>
+              Manage patient laboratory reports.
+            </p>
+
+            <button>
+              Manage Reports
+            </button>
+
+          </div>
+
+          <div className="dashboard-card">
+
+            <h3>Patient Management</h3>
+
+            <p>
+              View registered patients.
+            </p>
+
+            <button>
+              View Patients
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    );
+  }
+
+  // PATIENT DASHBOARD
+  if (isDashboard && userRole === "PATIENT") {
+    return (
+      <div className="dashboard-container">
+
+        <div className="dashboard-header">
+
+          <div>
+            <h1>Smart Medical Lab</h1>
+            <p>Patient Dashboard</p>
+          </div>
+
+          <button
+            className="logout-button"
+            onClick={() => {
+
+              localStorage.removeItem("token");
+
+              setIsDashboard(false);
+              setUserRole("");
+              setSelectedRole("");
 
               setShowTests(false);
               setShowBookings(false);
@@ -281,13 +320,9 @@ function App() {
 
         </div>
 
-        {/* WELCOME BOX */}
-
         <div className="welcome-box">
 
-          <h2>
-            Welcome to Smart Medical Lab
-          </h2>
+          <h2>Welcome to Smart Medical Lab</h2>
 
           <p>
             Manage your lab tests, bookings, reports
@@ -296,17 +331,11 @@ function App() {
 
         </div>
 
-        {/* DASHBOARD GRID */}
-
         <div className="dashboard-grid">
-
-          {/* BOOK TEST */}
 
           <div className="dashboard-card">
 
-            <h3>
-              Book Test
-            </h3>
+            <h3>Book Test</h3>
 
             <p>
               Search and book available
@@ -314,22 +343,16 @@ function App() {
             </p>
 
             <button
-              onClick={() => {
-                setShowTests(true);
-              }}
+              onClick={() => setShowTests(true)}
             >
               Book Test
             </button>
 
           </div>
 
-          {/* MY BOOKINGS */}
-
           <div className="dashboard-card">
 
-            <h3>
-              My Bookings
-            </h3>
+            <h3>My Bookings</h3>
 
             <p>
               View your upcoming and previous
@@ -337,22 +360,16 @@ function App() {
             </p>
 
             <button
-              onClick={() => {
-                setShowBookings(true);
-              }}
+              onClick={() => setShowBookings(true)}
             >
               View Bookings
             </button>
 
           </div>
 
-          {/* SAMPLE TRACKING */}
-
           <div className="dashboard-card">
 
-            <h3>
-              Sample Tracking
-            </h3>
+            <h3>Sample Tracking</h3>
 
             <p>
               Track your sample collection
@@ -360,22 +377,16 @@ function App() {
             </p>
 
             <button
-              onClick={() => {
-                setShowTracking(true);
-              }}
+              onClick={() => setShowTracking(true)}
             >
               Track Sample
             </button>
 
           </div>
 
-          {/* REPORTS */}
-
           <div className="dashboard-card">
 
-            <h3>
-              My Reports
-            </h3>
+            <h3>My Reports</h3>
 
             <p>
               View your digital laboratory
@@ -383,22 +394,16 @@ function App() {
             </p>
 
             <button
-              onClick={() => {
-                setShowReports(true);
-              }}
+              onClick={() => setShowReports(true)}
             >
               View Reports
             </button>
 
           </div>
 
-          {/* RESULT TRENDS */}
-
           <div className="dashboard-card">
 
-            <h3>
-              Result Trends
-            </h3>
+            <h3>Result Trends</h3>
 
             <p>
               Compare your previous and
@@ -406,22 +411,16 @@ function App() {
             </p>
 
             <button
-              onClick={() => {
-                setShowResultTrends(true);
-              }}
+              onClick={() => setShowResultTrends(true)}
             >
               View Trends
             </button>
 
           </div>
 
-          {/* FOLLOW UPS */}
-
           <div className="dashboard-card">
 
-            <h3>
-              Follow-ups
-            </h3>
+            <h3>Follow-ups</h3>
 
             <p>
               View reminders and recommended
@@ -429,9 +428,7 @@ function App() {
             </p>
 
             <button
-              onClick={() => {
-                setShowFollowUps(true);
-              }}
+              onClick={() => setShowFollowUps(true)}
             >
               View Follow-ups
             </button>
@@ -441,21 +438,14 @@ function App() {
         </div>
 
       </div>
-
     );
   }
 
-  // =========================
   // LOGIN / REGISTER PAGE
-  // =========================
-
   return (
-
     <div className="app-container">
 
       <div className="login-card">
-
-        {/* LEFT SIDE */}
 
         <div className="welcome-section">
 
@@ -463,9 +453,7 @@ function App() {
             ✚
           </div>
 
-          <h1>
-            Smart Medical Lab
-          </h1>
+          <h1>Smart Medical Lab</h1>
 
           <p>
             Test Booking, Digital Reports &
@@ -474,237 +462,326 @@ function App() {
 
           <div className="feature-list">
 
-            <div>
-              ✓ Easy Test Booking
-            </div>
-
-            <div>
-              ✓ Digital Lab Reports
-            </div>
-
-            <div>
-              ✓ Report Tracking
-            </div>
-
-            <div>
-              ✓ Follow-up Reminders
-            </div>
+            <div>✓ Easy Test Booking</div>
+            <div>✓ Digital Lab Reports</div>
+            <div>✓ Report Tracking</div>
+            <div>✓ Follow-up Reminders</div>
 
           </div>
 
         </div>
 
-        {/* RIGHT SIDE */}
-
         <div className="form-section">
 
-          {/* LOGIN */}
+          {/* ACCOUNT TYPE SELECTION */}
 
-          {isLogin ? (
+          {!selectedRole && (
 
-            <>
+            <div className="role-selection">
 
-              <h2>
-                Welcome Back
-              </h2>
+              <div className="role-heading">
 
-              <p className="form-subtitle">
-                Login to your patient account
-              </p>
-
-              <form onSubmit={handleLogin}>
-
-                <label>
-                  Email Address
-                </label>
-
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={loginData.email}
-                  onChange={(e) =>
-                    setLoginData({
-                      ...loginData,
-                      email: e.target.value
-                    })
-                  }
-                  required
-                />
-
-                <label>
-                  Password
-                </label>
-
-                <input
-                  type="password"
-                  placeholder="Enter your password"
-                  value={loginData.password}
-                  onChange={(e) =>
-                    setLoginData({
-                      ...loginData,
-                      password: e.target.value
-                    })
-                  }
-                  required
-                />
-
-                <button
-                  type="submit"
-                  className="main-button"
-                >
-                  Login
-                </button>
-
-              </form>
-
-              {message && (
-
-                <div className="message">
-                  {message}
+                <div className="role-icon">
+                  ✚
                 </div>
 
-              )}
+                <h2>
+                  Choose Account Type
+                </h2>
 
-              <div className="switch-text">
-
-                Don't have an account?
-
-                <button
-                  className="link-button"
-                  onClick={() => {
-
-                    setIsLogin(false);
-                    setMessage("");
-
-                  }}
-                >
-                  Register
-                </button>
+                <p className="form-subtitle">
+                  Select your account to continue
+                </p>
 
               </div>
 
-            </>
+              <select
+                className="role-select"
+                value=""
+                onChange={(e) => {
 
-          ) : (
+                  if (e.target.value !== "") {
 
-            /* =========================
-               REGISTER
-               ========================= */
-
-            <>
-
-              <h2>
-                Create Account
-              </h2>
-
-              <p className="form-subtitle">
-                Register as a new patient
-              </p>
-
-              <form onSubmit={handleRegister}>
-
-                <label>
-                  Full Name
-                </label>
-
-                <input
-                  type="text"
-                  placeholder="Enter your full name"
-                  value={registerData.name}
-                  onChange={(e) =>
-                    setRegisterData({
-                      ...registerData,
-                      name: e.target.value
-                    })
-                  }
-                  required
-                />
-
-                <label>
-                  Email Address
-                </label>
-
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={registerData.email}
-                  onChange={(e) =>
-                    setRegisterData({
-                      ...registerData,
-                      email: e.target.value
-                    })
-                  }
-                  required
-                />
-
-                <label>
-                  Phone Number
-                </label>
-
-                <input
-                  type="tel"
-                  placeholder="Enter your phone number"
-                  value={registerData.phone}
-                  onChange={(e) =>
-                    setRegisterData({
-                      ...registerData,
-                      phone: e.target.value
-                    })
-                  }
-                  required
-                />
-
-                <label>
-                  Password
-                </label>
-
-                <input
-                  type="password"
-                  placeholder="Create a password"
-                  value={registerData.password}
-                  onChange={(e) =>
-                    setRegisterData({
-                      ...registerData,
-                      password: e.target.value
-                    })
-                  }
-                  required
-                />
-
-                <button
-                  type="submit"
-                  className="main-button"
-                >
-                  Create Account
-                </button>
-
-              </form>
-
-              {message && (
-
-                <div className="message">
-                  {message}
-                </div>
-
-              )}
-
-              <div className="switch-text">
-
-                Already have an account?
-
-                <button
-                  className="link-button"
-                  onClick={() => {
-
+                    setSelectedRole(e.target.value);
                     setIsLogin(true);
                     setMessage("");
 
-                  }}
-                >
-                  Login
-                </button>
+                    setLoginData({
+                      email: "",
+                      password: ""
+                    });
 
-              </div>
+                  }
+
+                }}
+              >
+
+                <option value="" disabled>
+                  Select Account Type
+                </option>
+
+                <option value="PATIENT">
+                  👤 Patient
+                </option>
+
+                <option value="ADMIN">
+                  🛡️ Administrator
+                </option>
+
+              </select>
+
+              <p className="secure-text">
+                🔒 Secure access to your account
+              </p>
+
+            </div>
+
+          )}
+
+          {/* LOGIN / REGISTER */}
+
+          {selectedRole && (
+
+            <>
+
+              <button
+                className="link-button"
+                onClick={() => {
+
+                  setSelectedRole("");
+                  setMessage("");
+
+                  setLoginData({
+                    email: "",
+                    password: ""
+                  });
+
+                  setIsLogin(true);
+
+                }}
+              >
+                ← Change Account Type
+              </button>
+
+              {isLogin ? (
+
+                <>
+
+                  <h2>
+                    Welcome Back
+                  </h2>
+
+                  <p className="form-subtitle">
+
+                    Login to your{" "}
+
+                    {selectedRole === "ADMIN"
+                      ? "admin"
+                      : "patient"}{" "}
+
+                    account
+
+                  </p>
+
+                  <form onSubmit={handleLogin}>
+
+                    <label>
+                      Email Address
+                    </label>
+
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
+                      value={loginData.email}
+                      onChange={(e) =>
+                        setLoginData({
+                          ...loginData,
+                          email: e.target.value
+                        })
+                      }
+                      required
+                    />
+
+                    <label>
+                      Password
+                    </label>
+
+                    <input
+                      type="password"
+                      placeholder="Enter your password"
+                      value={loginData.password}
+                      onChange={(e) =>
+                        setLoginData({
+                          ...loginData,
+                          password: e.target.value
+                        })
+                      }
+                      required
+                    />
+
+                    <button
+                      type="submit"
+                      className="main-button"
+                    >
+                      Login
+                    </button>
+
+                  </form>
+
+                  {message && (
+
+                    <div className="message">
+                      {message}
+                    </div>
+
+                  )}
+
+                  {/* REGISTER ONLY FOR PATIENT */}
+
+                  {selectedRole === "PATIENT" && (
+
+                    <div className="switch-text">
+
+                      Don't have an account?
+
+                      <button
+                        className="link-button"
+                        onClick={() => {
+
+                          setIsLogin(false);
+                          setMessage("");
+
+                        }}
+                      >
+                        Register
+                      </button>
+
+                    </div>
+
+                  )}
+
+                </>
+
+              ) : (
+
+                <>
+
+                  <h2>
+                    Create Account
+                  </h2>
+
+                  <p className="form-subtitle">
+                    Register as a new patient
+                  </p>
+
+                  <form onSubmit={handleRegister}>
+
+                    <label>
+                      Full Name
+                    </label>
+
+                    <input
+                      type="text"
+                      placeholder="Enter your full name"
+                      value={registerData.name}
+                      onChange={(e) =>
+                        setRegisterData({
+                          ...registerData,
+                          name: e.target.value
+                        })
+                      }
+                      required
+                    />
+
+                    <label>
+                      Email Address
+                    </label>
+
+                    <input
+                      type="email"
+                      placeholder="Enter your email"
+                      value={registerData.email}
+                      onChange={(e) =>
+                        setRegisterData({
+                          ...registerData,
+                          email: e.target.value
+                        })
+                      }
+                      required
+                    />
+
+                    <label>
+                      Phone Number
+                    </label>
+
+                    <input
+                      type="tel"
+                      placeholder="Enter your phone number"
+                      value={registerData.phone}
+                      onChange={(e) =>
+                        setRegisterData({
+                          ...registerData,
+                          phone: e.target.value
+                        })
+                      }
+                      required
+                    />
+
+                    <label>
+                      Password
+                    </label>
+
+                    <input
+                      type="password"
+                      placeholder="Create a password"
+                      value={registerData.password}
+                      onChange={(e) =>
+                        setRegisterData({
+                          ...registerData,
+                          password: e.target.value
+                        })
+                      }
+                      required
+                    />
+
+                    <button
+                      type="submit"
+                      className="main-button"
+                    >
+                      Create Account
+                    </button>
+
+                  </form>
+
+                  {message && (
+
+                    <div className="message">
+                      {message}
+                    </div>
+
+                  )}
+
+                  <div className="switch-text">
+
+                    Already have an account?
+
+                    <button
+                      className="link-button"
+                      onClick={() => {
+
+                        setIsLogin(true);
+                        setMessage("");
+
+                      }}
+                    >
+                      Login
+                    </button>
+
+                  </div>
+
+                </>
+
+              )}
 
             </>
 
@@ -715,7 +792,6 @@ function App() {
       </div>
 
     </div>
-
   );
 }
 
