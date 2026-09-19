@@ -5,6 +5,9 @@ import "./App.css";
 import TestList from "./TestList";
 import MyBookings from "./MyBookings";
 import SampleTracking from "./SampleTracking";
+import Reports from "./Reports";
+import ResultTrends from "./ResultTrends";
+import FollowUps from "./FollowUps";
 
 function App() {
 
@@ -18,6 +21,9 @@ function App() {
   const [showTests, setShowTests] = useState(false);
   const [showBookings, setShowBookings] = useState(false);
   const [showTracking, setShowTracking] = useState(false);
+  const [showReports, setShowReports] = useState(false);
+  const [showResultTrends, setShowResultTrends] = useState(false);
+  const [showFollowUps, setShowFollowUps] = useState(false);
 
   // =========================
   // LOGIN DATA
@@ -40,7 +46,6 @@ function App() {
   });
 
   const [message, setMessage] = useState("");
-
 
   // =========================
   // LOGIN
@@ -65,13 +70,18 @@ function App() {
         }
       );
 
-      if (response.data === "Login successful") {
+      if (response.data.message === "Login successful") {
+
+        localStorage.setItem("token", response.data.token);
 
         setIsDashboard(true);
 
         setShowTests(false);
         setShowBookings(false);
         setShowTracking(false);
+        setShowReports(false);
+        setShowResultTrends(false);
+        setShowFollowUps(false);
 
       } else {
 
@@ -87,7 +97,6 @@ function App() {
 
     }
   };
-
 
   // =========================
   // REGISTER
@@ -130,7 +139,6 @@ function App() {
     }
   };
 
-
   // =========================
   // SAMPLE TRACKING PAGE
   // =========================
@@ -146,6 +154,35 @@ function App() {
 
   }
 
+  // =========================
+  // REPORTS PAGE
+  // =========================
+
+  if (showReports) {
+
+    return (
+      <Reports
+        patientId={1}
+        onBack={() => setShowReports(false)}
+      />
+    );
+
+  }
+
+  // =========================
+  // RESULT TRENDS PAGE
+  // =========================
+
+  if (showResultTrends) {
+
+    return (
+      <ResultTrends
+        reportId={1}
+        onBack={() => setShowResultTrends(false)}
+      />
+    );
+
+  }
 
   // =========================
   // MY BOOKINGS PAGE
@@ -162,7 +199,6 @@ function App() {
 
   }
 
-
   // =========================
   // TEST LIST PAGE
   // =========================
@@ -177,6 +213,20 @@ function App() {
 
   }
 
+  // =========================
+  // FOLLOW UPS PAGE
+  // =========================
+
+  if (showFollowUps) {
+
+    return (
+      <FollowUps
+        patientId={1}
+        onBack={() => setShowFollowUps(false)}
+      />
+    );
+
+  }
 
   // =========================
   // PATIENT DASHBOARD
@@ -208,11 +258,16 @@ function App() {
             className="logout-button"
             onClick={() => {
 
+              localStorage.removeItem("token");
+
               setIsDashboard(false);
 
               setShowTests(false);
               setShowBookings(false);
               setShowTracking(false);
+              setShowReports(false);
+              setShowResultTrends(false);
+              setShowFollowUps(false);
 
               setLoginData({
                 email: "",
@@ -225,7 +280,6 @@ function App() {
           </button>
 
         </div>
-
 
         {/* WELCOME BOX */}
 
@@ -242,11 +296,9 @@ function App() {
 
         </div>
 
-
         {/* DASHBOARD GRID */}
 
         <div className="dashboard-grid">
-
 
           {/* BOOK TEST */}
 
@@ -271,7 +323,6 @@ function App() {
 
           </div>
 
-
           {/* MY BOOKINGS */}
 
           <div className="dashboard-card">
@@ -294,7 +345,6 @@ function App() {
             </button>
 
           </div>
-
 
           {/* SAMPLE TRACKING */}
 
@@ -319,7 +369,6 @@ function App() {
 
           </div>
 
-
           {/* REPORTS */}
 
           <div className="dashboard-card">
@@ -333,12 +382,15 @@ function App() {
               reports.
             </p>
 
-            <button>
+            <button
+              onClick={() => {
+                setShowReports(true);
+              }}
+            >
               View Reports
             </button>
 
           </div>
-
 
           {/* RESULT TRENDS */}
 
@@ -353,12 +405,15 @@ function App() {
               current test results.
             </p>
 
-            <button>
+            <button
+              onClick={() => {
+                setShowResultTrends(true);
+              }}
+            >
               View Trends
             </button>
 
           </div>
-
 
           {/* FOLLOW UPS */}
 
@@ -373,7 +428,11 @@ function App() {
               follow-up tests.
             </p>
 
-            <button>
+            <button
+              onClick={() => {
+                setShowFollowUps(true);
+              }}
+            >
               View Follow-ups
             </button>
 
@@ -386,7 +445,6 @@ function App() {
     );
   }
 
-
   // =========================
   // LOGIN / REGISTER PAGE
   // =========================
@@ -396,7 +454,6 @@ function App() {
     <div className="app-container">
 
       <div className="login-card">
-
 
         {/* LEFT SIDE */}
 
@@ -437,11 +494,9 @@ function App() {
 
         </div>
 
-
         {/* RIGHT SIDE */}
 
         <div className="form-section">
-
 
           {/* LOGIN */}
 
@@ -476,7 +531,6 @@ function App() {
                   required
                 />
 
-
                 <label>
                   Password
                 </label>
@@ -494,7 +548,6 @@ function App() {
                   required
                 />
 
-
                 <button
                   type="submit"
                   className="main-button"
@@ -504,7 +557,6 @@ function App() {
 
               </form>
 
-
               {message && (
 
                 <div className="message">
@@ -512,7 +564,6 @@ function App() {
                 </div>
 
               )}
-
 
               <div className="switch-text">
 
@@ -550,9 +601,7 @@ function App() {
                 Register as a new patient
               </p>
 
-
               <form onSubmit={handleRegister}>
-
 
                 <label>
                   Full Name
@@ -571,7 +620,6 @@ function App() {
                   required
                 />
 
-
                 <label>
                   Email Address
                 </label>
@@ -588,7 +636,6 @@ function App() {
                   }
                   required
                 />
-
 
                 <label>
                   Phone Number
@@ -607,7 +654,6 @@ function App() {
                   required
                 />
 
-
                 <label>
                   Password
                 </label>
@@ -625,7 +671,6 @@ function App() {
                   required
                 />
 
-
                 <button
                   type="submit"
                   className="main-button"
@@ -635,7 +680,6 @@ function App() {
 
               </form>
 
-
               {message && (
 
                 <div className="message">
@@ -643,7 +687,6 @@ function App() {
                 </div>
 
               )}
-
 
               <div className="switch-text">
 
