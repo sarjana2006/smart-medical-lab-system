@@ -18,6 +18,20 @@ public class BookingService {
     // Create a new booking
     public Booking createBooking(Booking booking) {
 
+        boolean alreadyBooked =
+                bookingRepository.existsByLabIdAndTestIdAndBookingDateAndBookingTime(
+                        booking.getLabId(),
+                        booking.getTestId(),
+                        booking.getBookingDate(),
+                        booking.getBookingTime()
+                );
+
+        if (alreadyBooked) {
+            throw new RuntimeException(
+                    "This test slot is already booked. Please select another date or time."
+            );
+        }
+
         if (booking.getBookingStatus() == null ||
             booking.getBookingStatus().isEmpty()) {
             booking.setBookingStatus("CONFIRMED");
