@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 
 function AdminPatients({ onBack }) {
@@ -8,11 +8,14 @@ function AdminPatients({ onBack }) {
 
   const token = localStorage.getItem("token");
 
-  const authConfig = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  };
+  const authConfig = useMemo(
+    () => ({
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }),
+    [token]
+  );
 
   const loadPatients = useCallback(async () => {
     try {
@@ -26,7 +29,7 @@ function AdminPatients({ onBack }) {
       console.error(error);
       setMessage("Failed to load patients");
     }
-  }, [token]);
+  }, [authConfig]);
 
   useEffect(() => {
     loadPatients();
@@ -47,6 +50,10 @@ function AdminPatients({ onBack }) {
   };
 
   const updatePatient = async () => {
+    if (!editingPatient) {
+      return;
+    }
+
     try {
       await axios.put(
         `https://smart-medical-lab-backend.onrender.com/patient/${editingPatient.patientId}`,
@@ -88,21 +95,16 @@ function AdminPatients({ onBack }) {
 
   return (
     <div style={styles.container}>
-
       <div style={styles.header}>
         <div>
-          <h2 style={styles.title}>Patient Management</h2>
-
+          <h2 style={styles.title}>Manage Patients</h2>
           <p style={styles.subtitle}>
-            View, update and manage registered patients
+            View and manage registered patients
           </p>
         </div>
 
-        <button
-          onClick={onBack}
-          style={styles.backButton}
-        >
-          ← Back to Dashboard
+        <button style={styles.backButton} onClick={onBack}>
+          ← Back
         </button>
       </div>
 
@@ -114,76 +116,55 @@ function AdminPatients({ onBack }) {
 
       {editingPatient && (
         <div style={styles.editBox}>
+          <h3>Edit Patient</h3>
 
-          <h3 style={styles.sectionTitle}>
-            Edit Patient #{editingPatient.patientId}
-          </h3>
+          <input
+            type="text"
+            name="name"
+            value={editingPatient.name || ""}
+            onChange={handleChange}
+            placeholder="Patient Name"
+            style={styles.input}
+          />
 
-          <div style={styles.formGrid}>
+          <input
+            type="email"
+            name="email"
+            value={editingPatient.email || ""}
+            onChange={handleChange}
+            placeholder="Email"
+            style={styles.input}
+          />
 
-            <div>
-              <label style={styles.label}>Name</label>
+          <input
+            type="text"
+            name="phone"
+            value={editingPatient.phone || ""}
+            onChange={handleChange}
+            placeholder="Phone"
+            style={styles.input}
+          />
 
-              <input
-                type="text"
-                name="name"
-                value={editingPatient.name || ""}
-                onChange={handleChange}
-                style={styles.input}
-              />
-            </div>
-
-            <div>
-              <label style={styles.label}>Email</label>
-
-              <input
-                type="email"
-                name="email"
-                value={editingPatient.email || ""}
-                onChange={handleChange}
-                style={styles.input}
-              />
-            </div>
-
-            <div>
-              <label style={styles.label}>Phone</label>
-
-              <input
-                type="text"
-                name="phone"
-                value={editingPatient.phone || ""}
-                onChange={handleChange}
-                style={styles.input}
-              />
-            </div>
-
-          </div>
-
-          <div style={styles.actions}>
-
+          <div style={styles.editButtons}>
             <button
+              style={styles.saveButton}
               onClick={updatePatient}
-              style={styles.updateButton}
             >
-              Update Patient
+              Save
             </button>
 
             <button
-              onClick={() => setEditingPatient(null)}
               style={styles.cancelButton}
+              onClick={() => setEditingPatient(null)}
             >
               Cancel
             </button>
-
           </div>
-
         </div>
       )}
 
       <div style={styles.tableWrapper}>
-
         <table style={styles.table}>
-
           <thead>
             <tr>
               <th style={styles.th}>ID</th>
@@ -191,246 +172,188 @@ function AdminPatients({ onBack }) {
               <th style={styles.th}>Email</th>
               <th style={styles.th}>Phone</th>
               <th style={styles.th}>Role</th>
-              <th style={styles.th}>Created At</th>
               <th style={styles.th}>Actions</th>
             </tr>
           </thead>
 
           <tbody>
-
-            {patients.length === 0 ? (
-
-              <tr>
-                <td
-                  colSpan="7"
-                  style={styles.empty}
-                >
-                  No patients found
-                </td>
-              </tr>
-
-            ) : (
-
+            {patients.length > 0 ? (
               patients.map((patient) => (
-
                 <tr key={patient.patientId}>
-
+                  <td style={styles.td}>{patient.patientId}</td>
+                  <td style={styles.td}>{patient.name}</td>
+                  <td style={styles.td}>{patient.email}</td>
+                  <td style={styles.td}>{patient.phone}</td>
+                  <td style={styles.td}>{patient.role}</td>
                   <td style={styles.td}>
-                    {patient.patientId}
-                  </td>
-
-                  <td style={styles.td}>
-                    {patient.name}
-                  </td>
-
-                  <td style={styles.td}>
-                    {patient.email}
-                  </td>
-
-                  <td style={styles.td}>
-                    {patient.phone}
-                  </td>
-
-                  <td style={styles.td}>
-                    {patient.role}
-                  </td>
-
-                  <td style={styles.td}>
-                    {patient.createdAt}
-                  </td>
-
-                  <td style={styles.actionTd}>
-
                     <button
-                      onClick={() => startEdit(patient)}
                       style={styles.editButton}
+                      onClick={() => startEdit(patient)}
                     >
                       Edit
                     </button>
 
                     <button
+                      style={styles.deleteButton}
                       onClick={() =>
                         deletePatient(patient.patientId)
                       }
-                      style={styles.deleteButton}
                     >
                       Delete
                     </button>
-
                   </td>
-
                 </tr>
-
               ))
-
+            ) : (
+              <tr>
+                <td colSpan="6" style={styles.empty}>
+                  No patients found
+                </td>
+              </tr>
             )}
-
           </tbody>
-
         </table>
-
       </div>
-
     </div>
   );
 }
 
 const styles = {
-
   container: {
     padding: "30px",
-    fontFamily: "Arial, sans-serif",
-    backgroundColor: "#f5f7fb",
-    minHeight: "100vh"
+    maxWidth: "1200px",
+    margin: "0 auto",
+    fontFamily: "Arial, sans-serif"
   },
 
   header: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: "20px"
+    marginBottom: "25px"
   },
 
   title: {
-    margin: "0",
-    fontSize: "28px"
+    margin: 0,
+    fontSize: "28px",
+    color: "#1f2937"
   },
 
   subtitle: {
-    marginTop: "6px",
-    color: "#666"
+    marginTop: "8px",
+    color: "#6b7280"
   },
 
   backButton: {
-    padding: "10px 16px",
+    padding: "10px 18px",
     border: "none",
-    borderRadius: "6px",
+    borderRadius: "8px",
+    backgroundColor: "#374151",
+    color: "white",
     cursor: "pointer",
-    backgroundColor: "#555",
-    color: "white"
+    fontSize: "14px"
   },
 
   message: {
     padding: "12px",
     marginBottom: "20px",
-    backgroundColor: "#e8f5e9",
-    color: "#2e7d32",
-    borderRadius: "6px",
-    fontWeight: "bold"
+    backgroundColor: "#ecfdf5",
+    color: "#065f46",
+    borderRadius: "8px"
   },
 
   editBox: {
-    backgroundColor: "white",
-    padding: "22px",
+    padding: "20px",
     marginBottom: "25px",
+    backgroundColor: "#f9fafb",
     borderRadius: "10px",
-    border: "1px solid #ddd"
-  },
-
-  sectionTitle: {
-    marginTop: "0",
-    marginBottom: "20px"
-  },
-
-  formGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: "15px"
-  },
-
-  label: {
-    display: "block",
-    marginBottom: "6px",
-    fontWeight: "bold"
+    border: "1px solid #e5e7eb"
   },
 
   input: {
     width: "100%",
-    padding: "9px",
+    padding: "11px",
+    marginTop: "10px",
+    marginBottom: "8px",
     boxSizing: "border-box",
-    border: "1px solid #ccc",
-    borderRadius: "5px"
+    border: "1px solid #d1d5db",
+    borderRadius: "6px",
+    fontSize: "14px"
   },
 
-  actions: {
-    marginTop: "20px"
+  editButtons: {
+    display: "flex",
+    gap: "10px",
+    marginTop: "12px"
   },
 
-  updateButton: {
-    padding: "10px 18px",
+  saveButton: {
+    padding: "9px 18px",
     border: "none",
     borderRadius: "6px",
-    cursor: "pointer",
-    backgroundColor: "#1976d2",
-    color: "white"
+    backgroundColor: "#16a34a",
+    color: "white",
+    cursor: "pointer"
   },
 
   cancelButton: {
-    padding: "10px 18px",
-    marginLeft: "10px",
+    padding: "9px 18px",
     border: "none",
     borderRadius: "6px",
-    cursor: "pointer",
-    backgroundColor: "#777",
-    color: "white"
+    backgroundColor: "#6b7280",
+    color: "white",
+    cursor: "pointer"
   },
 
   tableWrapper: {
-    backgroundColor: "white",
-    borderRadius: "10px",
     overflowX: "auto",
-    border: "1px solid #ddd"
+    borderRadius: "10px",
+    border: "1px solid #e5e7eb"
   },
 
   table: {
     width: "100%",
     borderCollapse: "collapse",
-    minWidth: "1000px"
+    backgroundColor: "white"
   },
 
   th: {
-    padding: "14px 12px",
-    borderBottom: "2px solid #ddd",
+    padding: "14px",
     textAlign: "left",
-    whiteSpace: "nowrap",
-    backgroundColor: "#f0f2f5"
+    backgroundColor: "#f3f4f6",
+    color: "#374151",
+    borderBottom: "1px solid #d1d5db"
   },
 
   td: {
-    padding: "13px 12px",
-    borderBottom: "1px solid #eee",
-    whiteSpace: "nowrap"
-  },
-
-  actionTd: {
-    padding: "13px 12px",
-    borderBottom: "1px solid #eee",
-    whiteSpace: "nowrap"
+    padding: "14px",
+    borderBottom: "1px solid #e5e7eb",
+    color: "#374151"
   },
 
   editButton: {
     padding: "7px 12px",
+    marginRight: "8px",
     border: "none",
     borderRadius: "5px",
-    cursor: "pointer",
-    backgroundColor: "#1976d2",
-    color: "white"
+    backgroundColor: "#2563eb",
+    color: "white",
+    cursor: "pointer"
   },
 
   deleteButton: {
     padding: "7px 12px",
-    marginLeft: "8px",
     border: "none",
     borderRadius: "5px",
-    cursor: "pointer",
-    backgroundColor: "#d32f2f",
-    color: "white"
+    backgroundColor: "#dc2626",
+    color: "white",
+    cursor: "pointer"
   },
 
   empty: {
-    padding: "30px",
+    padding: "25px",
     textAlign: "center",
-    color: "#777"
+    color: "#6b7280"
   }
 };
 
