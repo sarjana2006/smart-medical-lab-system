@@ -5,6 +5,7 @@ import com.smart.repository.PatientRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -60,5 +61,45 @@ public class PatientService {
         }
 
         return Optional.empty();
+    }
+
+    // Admin: Get all patients
+    public List<Patient> getAllPatients() {
+        return patientRepository.findAll();
+    }
+
+    // Admin: Get patient by ID
+    public Patient getPatientById(int patientId) {
+
+        return patientRepository.findById(patientId)
+                .orElseThrow(() ->
+                        new RuntimeException("Patient not found"));
+    }
+
+    // Admin: Update patient
+    public Patient updatePatient(
+            int patientId,
+            Patient updatedPatient) {
+
+        Patient existingPatient =
+                patientRepository.findById(patientId)
+                        .orElseThrow(() ->
+                                new RuntimeException("Patient not found"));
+
+        existingPatient.setName(updatedPatient.getName());
+        existingPatient.setEmail(updatedPatient.getEmail());
+        existingPatient.setPhone(updatedPatient.getPhone());
+
+        return patientRepository.save(existingPatient);
+    }
+
+    // Admin: Delete patient
+    public void deletePatient(int patientId) {
+
+        if (!patientRepository.existsById(patientId)) {
+            throw new RuntimeException("Patient not found");
+        }
+
+        patientRepository.deleteById(patientId);
     }
 }
