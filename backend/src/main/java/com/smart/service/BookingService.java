@@ -47,4 +47,34 @@ public class BookingService {
     public List<Booking> getBookingsByPatient(int patientId) {
         return bookingRepository.findByPatientId(patientId);
     }
+
+    // Update booking
+    public Booking updateBooking(int bookingId, Booking updatedBooking) {
+
+        Booking existingBooking = bookingRepository.findById(bookingId)
+                .orElseThrow(() ->
+                    new RuntimeException("Booking not found"));
+
+        existingBooking.setPatientId(updatedBooking.getPatientId());
+        existingBooking.setLabId(updatedBooking.getLabId());
+        existingBooking.setTestId(updatedBooking.getTestId());
+        existingBooking.setBookingDate(updatedBooking.getBookingDate());
+        existingBooking.setBookingTime(updatedBooking.getBookingTime());
+        existingBooking.setCollectionType(updatedBooking.getCollectionType());
+        existingBooking.setTechnicianName(updatedBooking.getTechnicianName());
+        existingBooking.setBookingStatus(updatedBooking.getBookingStatus());
+        existingBooking.setSampleStatus(updatedBooking.getSampleStatus());
+
+        return bookingRepository.save(existingBooking);
+    }
+
+    // Delete booking
+    public void deleteBooking(int bookingId) {
+
+        if (!bookingRepository.existsById(bookingId)) {
+            throw new RuntimeException("Booking not found");
+        }
+
+        bookingRepository.deleteById(bookingId);
+    }
 }
