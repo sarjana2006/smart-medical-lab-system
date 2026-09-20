@@ -13,7 +13,7 @@ function TestList({ onBack }) {
   useEffect(() => {
 
     axios
-      .get("http://localhost:8080/tests")
+      .get("https://smart-medical-lab-backend.onrender.com/tests")
 
       .then((response) => {
         setTests(response.data);

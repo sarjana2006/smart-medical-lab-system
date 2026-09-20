@@ -1,26 +1,30 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./App.css";
-
 import TestList from "./TestList";
 import MyBookings from "./MyBookings";
 import SampleTracking from "./SampleTracking";
 import Reports from "./Reports";
 import ResultTrends from "./ResultTrends";
 import FollowUps from "./FollowUps";
-
+import AdminTests from "./AdminTests";
+import AdminBookings from "./AdminBookings";
+import AdminReports from "./AdminReports";
+import AdminPatients from "./AdminPatients";
 function App() {
   const [isLogin, setIsLogin] = useState(true);
   const [isDashboard, setIsDashboard] = useState(false);
   const [userRole, setUserRole] = useState("");
-
   const [showTests, setShowTests] = useState(false);
   const [showBookings, setShowBookings] = useState(false);
   const [showTracking, setShowTracking] = useState(false);
   const [showReports, setShowReports] = useState(false);
   const [showResultTrends, setShowResultTrends] = useState(false);
   const [showFollowUps, setShowFollowUps] = useState(false);
-
+  const [showAdminTests, setShowAdminTests] = useState(false);
+  const [showAdminBookings, setShowAdminBookings] = useState(false);
+  const [showAdminReports, setShowAdminReports] = useState(false);
+  const [showAdminPatients, setShowAdminPatients] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: ""
@@ -43,7 +47,7 @@ function App() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/patient/login",
+        "https://smart-medical-lab-backend.onrender.com/patient/login",
         null,
         {
           params: {
@@ -55,7 +59,6 @@ function App() {
       );
 
       if (response.data.message === "Login successful") {
-
         localStorage.setItem("token", response.data.token);
 
         setUserRole(response.data.role);
@@ -67,18 +70,14 @@ function App() {
         setShowReports(false);
         setShowResultTrends(false);
         setShowFollowUps(false);
-
+        setShowAdminTests(false);
+        setShowAdminBookings(false);
       } else {
-
-        // Show backend message
         setMessage(response.data.message);
       }
-
     } catch (error) {
-
       console.error(error);
       setMessage("Login failed. Please try again.");
-
     }
   };
 
@@ -89,7 +88,7 @@ function App() {
 
     try {
       await axios.post(
-        "http://localhost:8080/patient/register",
+        "https://smart-medical-lab-backend.onrender.com/patient/register",
         registerData
       );
 
@@ -102,12 +101,9 @@ function App() {
         phone: "",
         password: ""
       });
-
     } catch (error) {
-
       console.error(error);
       setMessage("Registration failed. Please try again.");
-
     }
   };
 
@@ -160,6 +156,37 @@ function App() {
     );
   }
 
+  // ADMIN TESTS
+  if (showAdminTests) {
+    return (
+      <AdminTests
+        onBack={() => setShowAdminTests(false)}
+      />
+    );
+  }
+
+  // ADMIN BOOKINGS
+  if (showAdminBookings) {
+    return (
+      <AdminBookings
+        onBack={() => setShowAdminBookings(false)}
+      />
+    );
+  }
+  if (showAdminReports) {
+    return (
+      <AdminReports
+        onBack={() => setShowAdminReports(false)}
+      />
+    );
+  }
+  if (showAdminPatients) {
+    return (
+      <AdminPatients
+        onBack={() => setShowAdminPatients(false)}
+      />
+    );
+  }
   // FOLLOW UPS
   if (showFollowUps) {
     return (
@@ -217,6 +244,7 @@ function App() {
 
         <div className="dashboard-grid">
 
+          {/* MANAGE TESTS */}
           <div className="dashboard-card">
 
             <h3>Manage Tests</h3>
@@ -225,12 +253,15 @@ function App() {
               Add, update and manage laboratory tests.
             </p>
 
-            <button>
+            <button
+              onClick={() => setShowAdminTests(true)}
+            >
               Manage Tests
             </button>
 
           </div>
 
+          {/* MANAGE BOOKINGS */}
           <div className="dashboard-card">
 
             <h3>Manage Bookings</h3>
@@ -239,12 +270,15 @@ function App() {
               View and manage patient bookings.
             </p>
 
-            <button>
+            <button
+              onClick={() => setShowAdminBookings(true)}
+            >
               Manage Bookings
             </button>
 
           </div>
 
+          {/* MANAGE REPORTS */}
           <div className="dashboard-card">
 
             <h3>Manage Reports</h3>
@@ -253,12 +287,13 @@ function App() {
               Manage patient laboratory reports.
             </p>
 
-            <button>
-              Manage Reports
-            </button>
+            <button onClick={() => setShowAdminReports(true)}>
+  Manage Reports
+</button>
 
           </div>
 
+          {/* PATIENT MANAGEMENT */}
           <div className="dashboard-card">
 
             <h3>Patient Management</h3>
@@ -267,9 +302,9 @@ function App() {
               View registered patients.
             </p>
 
-            <button>
-              View Patients
-            </button>
+            <button onClick={() => setShowAdminPatients(true)}>
+  View Patients
+</button>
 
           </div>
 
@@ -307,6 +342,8 @@ function App() {
               setShowReports(false);
               setShowResultTrends(false);
               setShowFollowUps(false);
+              setShowAdminTests(false);
+              setShowAdminBookings(false);
 
               setLoginData({
                 email: "",
@@ -333,6 +370,7 @@ function App() {
 
         <div className="dashboard-grid">
 
+          {/* BOOK TEST */}
           <div className="dashboard-card">
 
             <h3>Book Test</h3>
@@ -350,6 +388,7 @@ function App() {
 
           </div>
 
+          {/* MY BOOKINGS */}
           <div className="dashboard-card">
 
             <h3>My Bookings</h3>
@@ -367,6 +406,7 @@ function App() {
 
           </div>
 
+          {/* SAMPLE TRACKING */}
           <div className="dashboard-card">
 
             <h3>Sample Tracking</h3>
@@ -384,6 +424,7 @@ function App() {
 
           </div>
 
+          {/* MY REPORTS */}
           <div className="dashboard-card">
 
             <h3>My Reports</h3>
@@ -401,6 +442,7 @@ function App() {
 
           </div>
 
+          {/* RESULT TRENDS */}
           <div className="dashboard-card">
 
             <h3>Result Trends</h3>
@@ -418,6 +460,7 @@ function App() {
 
           </div>
 
+          {/* FOLLOW UPS */}
           <div className="dashboard-card">
 
             <h3>Follow-ups</h3>

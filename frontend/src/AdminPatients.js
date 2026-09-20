@@ -17,7 +17,7 @@ function AdminPatients({ onBack }) {
   const loadPatients = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/patient",
+        "https://smart-medical-lab-backend.onrender.com/patient",
         authConfig
       );
 
@@ -49,7 +49,7 @@ function AdminPatients({ onBack }) {
   const updatePatient = async () => {
     try {
       await axios.put(
-        `http://localhost:8080/patient/${editingPatient.patientId}`,
+        `https://smart-medical-lab-backend.onrender.com/patient/${editingPatient.patientId}`,
         {
           name: editingPatient.name,
           email: editingPatient.email,
@@ -74,7 +74,7 @@ function AdminPatients({ onBack }) {
 
     try {
       await axios.delete(
-        `http://localhost:8080/patient/${patientId}`,
+        `https://smart-medical-lab-backend.onrender.com/patient/${patientId}`,
         authConfig
       );
 

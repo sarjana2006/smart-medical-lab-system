@@ -11,7 +11,7 @@ function AdminBookings({ onBack }) {
   const loadBookings = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/booking"
+        "https://smart-medical-lab-backend.onrender.com/booking"
       );
 
       setBookings(response.data);
@@ -33,7 +33,7 @@ function AdminBookings({ onBack }) {
 
     try {
       await axios.delete(
-        `http://localhost:8080/booking/${bookingId}`
+        `https://smart-medical-lab-backend.onrender.com/booking/${bookingId}`
       );
 
       setMessage("Booking deleted successfully");
@@ -64,7 +64,7 @@ function AdminBookings({ onBack }) {
   const updateBooking = async () => {
     try {
       await axios.put(
-        `http://localhost:8080/booking/${editingBooking.bookingId}`,
+        `https://smart-medical-lab-backend.onrender.com/booking/${editingBooking.bookingId}`,
         {
           ...editingBooking,
           patientId: Number(editingBooking.patientId),

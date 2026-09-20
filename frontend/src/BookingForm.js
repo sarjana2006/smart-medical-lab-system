@@ -32,7 +32,7 @@ function BookingForm({ selectedTest, onBack }) {
       };
 
       await axios.post(
-        "http://localhost:8080/booking",
+        "https://smart-medical-lab-backend.onrender.com/booking",
         booking
       );
 

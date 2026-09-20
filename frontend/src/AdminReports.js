@@ -33,7 +33,7 @@ function AdminReports({ onBack }) {
     try {
 
       const response = await axios.get(
-        "http://localhost:8080/report",
+        "https://smart-medical-lab-backend.onrender.com/report",
         getAuthConfig()
       );
 
@@ -56,7 +56,7 @@ function AdminReports({ onBack }) {
     try {
 
       await axios.post(
-        "http://localhost:8080/report",
+        "https://smart-medical-lab-backend.onrender.com/report",
         {
           bookingId: Number(newReport.bookingId),
 
@@ -108,7 +108,7 @@ function AdminReports({ onBack }) {
     try {
 
       await axios.put(
-        `http://localhost:8080/report/${editingReport.reportId}`,
+        `https://smart-medical-lab-backend.onrender.com/report/${editingReport.reportId}`,
         {
           bookingId: Number(editingReport.bookingId),
 

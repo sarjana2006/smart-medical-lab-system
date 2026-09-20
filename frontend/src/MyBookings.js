@@ -10,7 +10,7 @@ function MyBookings({ patientId, onBack }) {
   useEffect(() => {
 
     axios
-      .get(`http://localhost:8080/booking/patient/${patientId}`)
+      .get(`https://smart-medical-lab-backend.onrender.com/booking/patient/${patientId}`)
       .then((response) => {
         setBookings(response.data);
         setLoading(false);
@@ -26,85 +26,240 @@ function MyBookings({ patientId, onBack }) {
   return (
     <div className="bookings-page">
 
-      <button
-        className="back-button"
-        onClick={onBack}
-      >
-        ← Back to Dashboard
-      </button>
+      {/* TOP BAR */}
 
-      <div className="bookings-header">
-        <h1>My Bookings</h1>
-        <p>View your laboratory test bookings</p>
+      <div className="page-topbar">
+
+        <button
+          className="back-button"
+          onClick={onBack}
+        >
+          ← Dashboard
+        </button>
+
+        <div className="page-title">
+
+          <h1>My Bookings</h1>
+
+          <p>
+            Manage your laboratory test appointments
+          </p>
+
+        </div>
+
       </div>
+
+
+      {/* LOADING */}
 
       {loading && (
-        <p>Loading bookings...</p>
-      )}
 
-      {error && (
-        <p className="message">{error}</p>
-      )}
+        <div className="status-box">
 
-      {!loading && !error && bookings.length === 0 && (
-        <div className="message">
-          No bookings found.
-        </div>
-      )}
-
-      <div className="booking-list">
-
-        {bookings.map((booking) => (
-
-          <div
-            className="booking-card"
-            key={booking.bookingId}
-          >
-
-            <h2>
-              Booking #{booking.bookingId}
-            </h2>
-
-            <p>
-              <strong>Test ID:</strong>{" "}
-              {booking.testId}
-            </p>
-
-            <p>
-              <strong>Lab ID:</strong>{" "}
-              {booking.labId}
-            </p>
-
-            <p>
-              <strong>Date:</strong>{" "}
-              {booking.bookingDate}
-            </p>
-
-            <p>
-              <strong>Time:</strong>{" "}
-              {booking.bookingTime}
-            </p>
-
-            <p>
-              <strong>Collection:</strong>{" "}
-              {booking.collectionType}
-            </p>
-
-            <p>
-              <strong>Booking Status:</strong>{" "}
-              {booking.bookingStatus}
-            </p>
-
-            <p>
-              <strong>Sample Status:</strong>{" "}
-              {booking.sampleStatus}
-            </p>
-
+          <div className="loading-icon">
+            ⟳
           </div>
 
-        ))}
+          <h3>Loading your bookings...</h3>
 
-      </div>
+          <p>Please wait a moment.</p>
+
+        </div>
+
+      )}
+
+
+      {/* ERROR */}
+
+      {error && (
+
+        <div className="status-box error-box">
+
+          <div className="status-icon">
+            !
+          </div>
+
+          <h3>Unable to load bookings</h3>
+
+          <p>{error}</p>
+
+        </div>
+
+      )}
+
+
+      {/* NO BOOKINGS */}
+
+      {!loading && !error && bookings.length === 0 && (
+
+        <div className="status-box">
+
+          <div className="empty-icon">
+            □
+          </div>
+
+          <h3>No Bookings Found</h3>
+
+          <p>
+            You haven't booked any laboratory tests yet.
+          </p>
+
+        </div>
+
+      )}
+
+
+      {/* BOOKING CARDS */}
+
+      {!loading && !error && bookings.length > 0 && (
+
+        <div className="booking-list">
+
+          {bookings.map((booking) => (
+
+            <div
+              className="booking-card"
+              key={booking.bookingId}
+            >
+
+              {/* CARD HEADER */}
+
+              <div className="booking-card-header">
+
+                <div>
+
+                  <span className="booking-label">
+                    BOOKING ID
+                  </span>
+
+                  <h2>
+                    #{booking.bookingId}
+                  </h2>
+
+                </div>
+
+                <span className="booking-status">
+                  {booking.bookingStatus}
+                </span>
+
+              </div>
+
+
+              {/* TEST INFORMATION */}
+
+              <div className="booking-section">
+
+                <h3>
+                  🧪 Test Information
+                </h3>
+
+                <div className="booking-details">
+
+                  <div className="detail-item">
+
+                    <span>
+                      Test ID
+                    </span>
+
+                    <strong>
+                      {booking.testId}
+                    </strong>
+
+                  </div>
+
+                  <div className="detail-item">
+
+                    <span>
+                      Lab ID
+                    </span>
+
+                    <strong>
+                      {booking.labId}
+                    </strong>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              {/* APPOINTMENT */}
+
+              <div className="booking-section">
+
+                <h3>
+                  📅 Appointment
+                </h3>
+
+                <div className="booking-details">
+
+                  <div className="detail-item">
+
+                    <span>
+                      Date
+                    </span>
+
+                    <strong>
+                      {booking.bookingDate}
+                    </strong>
+
+                  </div>
+
+                  <div className="detail-item">
+
+                    <span>
+                      Time
+                    </span>
+
+                    <strong>
+                      {booking.bookingTime}
+                    </strong>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              {/* COLLECTION */}
+
+              <div className="booking-section">
+
+                <h3>
+                  🏠 Sample Collection
+                </h3>
+
+                <div className="collection-row">
+
+                  <span className="collection-type">
+                    {booking.collectionType}
+                  </span>
+
+                  <div>
+
+                    <span className="sample-label">
+                      Sample Status
+                    </span>
+
+                    <strong className="sample-status">
+                      {booking.sampleStatus}
+                    </strong>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          ))}
+
+        </div>
+
+      )}
 
     </div>
   );

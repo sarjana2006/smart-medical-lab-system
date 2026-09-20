@@ -1138,3 +1138,267 @@ button {
   .followup-empty p {
     color: #6b7280;
   }
+/* =========================
+   PROFESSIONAL ACCOUNT SELECTION
+   ========================= */
+
+.role-selection {
+  width: 100%;
+  max-width: 440px;
+  margin: auto;
+}
+
+.role-heading {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.role-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 14px;
+  border-radius: 14px;
+  background: #eaf4ff;
+  color: #1976d2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.role-heading h2 {
+  margin-bottom: 8px;
+}
+
+.role-heading .form-subtitle {
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+
+/* ROLE CARDS */
+
+.role-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+
+.role-option {
+  width: 100%;
+  min-height: 100px;
+  padding: 18px 20px;
+
+  border: 1px solid #dce6ef;
+  border-radius: 16px;
+
+  background: #ffffff;
+
+  display: flex;
+  align-items: center;
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+.role-option:hover {
+  transform: translateY(-2px);
+
+  border-color: #1976d2;
+
+  box-shadow:
+    0 8px 22px rgba(25, 118, 210, 0.12);
+}
+
+
+/* ICON */
+
+.role-option-icon {
+  width: 54px;
+  height: 54px;
+
+  min-width: 54px;
+
+  border-radius: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 25px;
+
+  margin-right: 16px;
+}
+
+
+.patient-icon {
+  background: #eaf4ff;
+}
+
+
+.admin-icon {
+  background: #f0ecff;
+}
+
+
+/* TEXT */
+
+.role-option-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  flex: 1;
+}
+
+
+.role-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+
+.role-description {
+  font-size: 13px;
+  line-height: 1.45;
+  color: #6b7280;
+}
+
+
+/* ARROW */
+
+.role-arrow {
+  font-size: 22px;
+  color: #9aa6b2;
+
+  margin-left: 12px;
+
+  transition: transform 0.2s ease;
+}
+
+
+.role-option:hover .role-arrow {
+  transform: translateX(4px);
+  color: #1976d2;
+}
+
+
+/* SECURE TEXT */
+
+.secure-text {
+  margin-top: 22px;
+
+  text-align: center;
+
+  font-size: 12px;
+
+  color: #7b8794;
+}
+/* =========================
+   SINGLE ACCOUNT SELECTOR
+   ========================= */
+
+.role-selection {
+  width: 100%;
+  max-width: 440px;
+  margin: auto;
+}
+
+.role-heading {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.role-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 14px;
+
+  border-radius: 14px;
+
+  background: #eaf4ff;
+  color: #1976d2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.role-heading h2 {
+  margin-bottom: 8px;
+}
+
+.role-heading .form-subtitle {
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+
+/* SINGLE SELECT BOX */
+
+.role-select {
+  width: 100%;
+  height: 58px;
+
+  padding: 0 18px;
+
+  border: 1px solid #d5e0ea;
+  border-radius: 14px;
+
+  background: #ffffff;
+
+  color: #263238;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  outline: none;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.role-select:hover {
+  border-color: #1976d2;
+}
+
+.role-select:focus {
+  border-color: #1976d2;
+
+  box-shadow:
+    0 0 0 3px rgba(25, 118, 210, 0.10);
+}
+
+
+/* OPTION */
+
+.role-select option {
+  padding: 12px;
+  font-size: 15px;
+}
+
+
+/* SECURE TEXT */
+
+.secure-text {
+  margin-top: 20px;
+
+  text-align: center;
+
+  font-size: 12px;
+
+  color: #7b8794;
+}

@@ -23,7 +23,7 @@ function AdminTests({ onBack }) {
     try {
 
       const response = await axios.get(
-        "http://localhost:8080/tests/all"
+        "https://smart-medical-lab-backend.onrender.com/tests/all"
       );
 
       setTests(response.data);
@@ -67,7 +67,7 @@ function AdminTests({ onBack }) {
       if (editingId) {
 
         await axios.put(
-          `http://localhost:8080/tests/${editingId}`,
+          `https://smart-medical-lab-backend.onrender.com/tests/${editingId}`,
           data
         );
 
@@ -76,7 +76,7 @@ function AdminTests({ onBack }) {
       } else {
 
         await axios.post(
-          "http://localhost:8080/tests",
+          "https://smart-medical-lab-backend.onrender.com/tests",
           data
         );
 
@@ -137,7 +137,7 @@ function AdminTests({ onBack }) {
     try {
 
       await axios.delete(
-        `http://localhost:8080/tests/${id}`
+        `https://smart-medical-lab-backend.onrender.com/tests/${id}`
       );
 
       setMessage("Test deleted successfully.");
