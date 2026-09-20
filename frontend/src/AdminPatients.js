@@ -30,7 +30,7 @@ function AdminPatients({ onBack }) {
 
   useEffect(() => {
     loadPatients();
-  }, []);
+  }, [loadPatients]);
 
   const startEdit = (patient) => {
     setEditingPatient({ ...patient });
