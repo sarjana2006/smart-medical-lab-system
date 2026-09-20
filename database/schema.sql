@@ -1,6 +1,3 @@
-CREATE DATABASE smart_medical_lab;
-
-USE smart_medical_lab;
 
 CREATE TABLE patients (
     patient_id INT PRIMARY KEY AUTO_INCREMENT,

@@ -28,6 +28,10 @@ public class Test {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    // Default Constructor
+    public Test() {
+    }
+
     // Getters and Setters
 
     public int getTestId() {
