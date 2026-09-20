@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/followups")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://smart-medical-lab-system.vercel.app"})
 public class FollowUpController {
 
     private final FollowUpService followUpService;

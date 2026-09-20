@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/booking")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://smart-medical-lab-system.vercel.app"})
 public class BookingController {
 
     private final BookingService bookingService;
@@ -52,5 +52,24 @@ public class BookingController {
             @PathVariable int patientId) {
 
         return bookingService.getBookingsByPatient(patientId);
+    }
+
+    // Update booking
+    @PutMapping("/{bookingId}")
+    public Booking updateBooking(
+            @PathVariable int bookingId,
+            @RequestBody Booking booking) {
+
+        return bookingService.updateBooking(bookingId, booking);
+    }
+
+    // Delete booking
+    @DeleteMapping("/{bookingId}")
+    public ResponseEntity<String> deleteBooking(
+            @PathVariable int bookingId) {
+
+        bookingService.deleteBooking(bookingId);
+
+        return ResponseEntity.ok("Booking deleted successfully");
     }
 }

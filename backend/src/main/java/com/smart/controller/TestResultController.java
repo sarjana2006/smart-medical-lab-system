@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/test-result")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://smart-medical-lab-system.vercel.app"})
 public class TestResultController {
 
     private final TestResultService testResultService;
