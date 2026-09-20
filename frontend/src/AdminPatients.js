@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 
 function AdminPatients({ onBack }) {
@@ -14,7 +14,7 @@ function AdminPatients({ onBack }) {
     }
   };
 
-  const loadPatients = async () => {
+  const loadPatients = useCallback(async () => {
     try {
       const response = await axios.get(
         "https://smart-medical-lab-backend.onrender.com/patient",
@@ -26,7 +26,7 @@ function AdminPatients({ onBack }) {
       console.error(error);
       setMessage("Failed to load patients");
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     loadPatients();
