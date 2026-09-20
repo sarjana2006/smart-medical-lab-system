@@ -35,6 +35,9 @@ public class SecurityConfig {
                 // Allow CORS preflight requests
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
+                // Health API
+                .requestMatchers("/health").permitAll()
+
                 // Login & Registration
                 .requestMatchers("/patient/login").permitAll()
                 .requestMatchers("/patient/register").permitAll()
