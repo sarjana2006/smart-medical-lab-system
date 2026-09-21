@@ -1,30 +1,36 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./App.css";
+
 import TestList from "./TestList";
 import MyBookings from "./MyBookings";
 import SampleTracking from "./SampleTracking";
 import Reports from "./Reports";
 import ResultTrends from "./ResultTrends";
 import FollowUps from "./FollowUps";
+
 import AdminTests from "./AdminTests";
 import AdminBookings from "./AdminBookings";
 import AdminReports from "./AdminReports";
 import AdminPatients from "./AdminPatients";
+
 function App() {
   const [isLogin, setIsLogin] = useState(true);
   const [isDashboard, setIsDashboard] = useState(false);
   const [userRole, setUserRole] = useState("");
+
   const [showTests, setShowTests] = useState(false);
   const [showBookings, setShowBookings] = useState(false);
   const [showTracking, setShowTracking] = useState(false);
   const [showReports, setShowReports] = useState(false);
   const [showResultTrends, setShowResultTrends] = useState(false);
   const [showFollowUps, setShowFollowUps] = useState(false);
+
   const [showAdminTests, setShowAdminTests] = useState(false);
   const [showAdminBookings, setShowAdminBookings] = useState(false);
   const [showAdminReports, setShowAdminReports] = useState(false);
   const [showAdminPatients, setShowAdminPatients] = useState(false);
+
   const [loginData, setLoginData] = useState({
     email: "",
     password: ""
@@ -40,7 +46,9 @@ function App() {
   const [selectedRole, setSelectedRole] = useState("");
   const [message, setMessage] = useState("");
 
+  // =========================
   // LOGIN
+  // =========================
   const handleLogin = async (e) => {
     e.preventDefault();
     setMessage("");
@@ -58,6 +66,8 @@ function App() {
         }
       );
 
+      console.log("Login response:", response.data);
+
       if (response.data.message === "Login successful") {
         localStorage.setItem("token", response.data.token);
 
@@ -70,27 +80,44 @@ function App() {
         setShowReports(false);
         setShowResultTrends(false);
         setShowFollowUps(false);
+
         setShowAdminTests(false);
         setShowAdminBookings(false);
+        setShowAdminReports(false);
+        setShowAdminPatients(false);
       } else {
         setMessage(response.data.message);
       }
     } catch (error) {
-      console.error(error);
-      setMessage("Login failed. Please try again.");
+      console.error("Login error:", error);
+
+      if (error.response) {
+        setMessage(
+          error.response.data?.message ||
+            `Login failed. Server returned ${error.response.status}.`
+        );
+      } else {
+        setMessage(
+          "Login failed. Please check the backend connection and try again."
+        );
+      }
     }
   };
 
+  // =========================
   // REGISTER
+  // =========================
   const handleRegister = async (e) => {
     e.preventDefault();
     setMessage("");
 
     try {
-      await axios.post(
+      const response = await axios.post(
         "https://smart-medical-lab-backend.onrender.com/patient/register",
         registerData
       );
+
+      console.log("Registration response:", response.data);
 
       setMessage("Registration successful! Please login.");
       setIsLogin(true);
@@ -102,12 +129,24 @@ function App() {
         password: ""
       });
     } catch (error) {
-      console.error(error);
-      setMessage("Registration failed. Please try again.");
+      console.error("Registration error:", error);
+
+      if (error.response) {
+        setMessage(
+          error.response.data?.message ||
+            `Registration failed. Server returned ${error.response.status}.`
+        );
+      } else {
+        setMessage(
+          "Registration failed. Please check the backend connection and try again."
+        );
+      }
     }
   };
 
+  // =========================
   // SAMPLE TRACKING
+  // =========================
   if (showTracking) {
     return (
       <SampleTracking
@@ -117,7 +156,9 @@ function App() {
     );
   }
 
+  // =========================
   // REPORTS
+  // =========================
   if (showReports) {
     return (
       <Reports
@@ -127,7 +168,9 @@ function App() {
     );
   }
 
+  // =========================
   // RESULT TRENDS
+  // =========================
   if (showResultTrends) {
     return (
       <ResultTrends
@@ -137,7 +180,9 @@ function App() {
     );
   }
 
+  // =========================
   // MY BOOKINGS
+  // =========================
   if (showBookings) {
     return (
       <MyBookings
@@ -147,7 +192,9 @@ function App() {
     );
   }
 
+  // =========================
   // TEST LIST
+  // =========================
   if (showTests) {
     return (
       <TestList
@@ -156,7 +203,9 @@ function App() {
     );
   }
 
+  // =========================
   // ADMIN TESTS
+  // =========================
   if (showAdminTests) {
     return (
       <AdminTests
@@ -165,7 +214,9 @@ function App() {
     );
   }
 
+  // =========================
   // ADMIN BOOKINGS
+  // =========================
   if (showAdminBookings) {
     return (
       <AdminBookings
@@ -173,6 +224,10 @@ function App() {
       />
     );
   }
+
+  // =========================
+  // ADMIN REPORTS
+  // =========================
   if (showAdminReports) {
     return (
       <AdminReports
@@ -180,6 +235,10 @@ function App() {
       />
     );
   }
+
+  // =========================
+  // ADMIN PATIENTS
+  // =========================
   if (showAdminPatients) {
     return (
       <AdminPatients
@@ -187,7 +246,10 @@ function App() {
       />
     );
   }
+
+  // =========================
   // FOLLOW UPS
+  // =========================
   if (showFollowUps) {
     return (
       <FollowUps
@@ -197,13 +259,14 @@ function App() {
     );
   }
 
+  // =========================
   // ADMIN DASHBOARD
+  // =========================
   if (isDashboard && userRole === "ADMIN") {
     return (
       <div className="dashboard-container">
 
         <div className="dashboard-header">
-
           <div>
             <h1>Smart Medical Lab</h1>
             <p>Admin Dashboard</p>
@@ -212,7 +275,6 @@ function App() {
           <button
             className="logout-button"
             onClick={() => {
-
               localStorage.removeItem("token");
 
               setIsDashboard(false);
@@ -224,29 +286,25 @@ function App() {
                 password: ""
               });
 
+              setMessage("");
             }}
           >
             Logout
           </button>
-
         </div>
 
         <div className="welcome-box">
-
           <h2>Welcome to Admin Account</h2>
 
           <p>
             Manage laboratory tests, bookings,
             reports and patient services.
           </p>
-
         </div>
 
         <div className="dashboard-grid">
 
-          {/* MANAGE TESTS */}
           <div className="dashboard-card">
-
             <h3>Manage Tests</h3>
 
             <p>
@@ -258,12 +316,9 @@ function App() {
             >
               Manage Tests
             </button>
-
           </div>
 
-          {/* MANAGE BOOKINGS */}
           <div className="dashboard-card">
-
             <h3>Manage Bookings</h3>
 
             <p>
@@ -275,46 +330,44 @@ function App() {
             >
               Manage Bookings
             </button>
-
           </div>
 
-          {/* MANAGE REPORTS */}
           <div className="dashboard-card">
-
             <h3>Manage Reports</h3>
 
             <p>
               Manage patient laboratory reports.
             </p>
 
-            <button onClick={() => setShowAdminReports(true)}>
-  Manage Reports
-</button>
-
+            <button
+              onClick={() => setShowAdminReports(true)}
+            >
+              Manage Reports
+            </button>
           </div>
 
-          {/* PATIENT MANAGEMENT */}
           <div className="dashboard-card">
-
             <h3>Patient Management</h3>
 
             <p>
               View registered patients.
             </p>
 
-            <button onClick={() => setShowAdminPatients(true)}>
-  View Patients
-</button>
-
+            <button
+              onClick={() => setShowAdminPatients(true)}
+            >
+              View Patients
+            </button>
           </div>
 
         </div>
-
       </div>
     );
   }
 
+  // =========================
   // PATIENT DASHBOARD
+  // =========================
   if (isDashboard && userRole === "PATIENT") {
     return (
       <div className="dashboard-container">
@@ -329,7 +382,6 @@ function App() {
           <button
             className="logout-button"
             onClick={() => {
-
               localStorage.removeItem("token");
 
               setIsDashboard(false);
@@ -342,14 +394,18 @@ function App() {
               setShowReports(false);
               setShowResultTrends(false);
               setShowFollowUps(false);
+
               setShowAdminTests(false);
               setShowAdminBookings(false);
+              setShowAdminReports(false);
+              setShowAdminPatients(false);
 
               setLoginData({
                 email: "",
                 password: ""
               });
 
+              setMessage("");
             }}
           >
             Logout
@@ -370,7 +426,6 @@ function App() {
 
         <div className="dashboard-grid">
 
-          {/* BOOK TEST */}
           <div className="dashboard-card">
 
             <h3>Book Test</h3>
@@ -388,7 +443,6 @@ function App() {
 
           </div>
 
-          {/* MY BOOKINGS */}
           <div className="dashboard-card">
 
             <h3>My Bookings</h3>
@@ -406,7 +460,6 @@ function App() {
 
           </div>
 
-          {/* SAMPLE TRACKING */}
           <div className="dashboard-card">
 
             <h3>Sample Tracking</h3>
@@ -424,7 +477,6 @@ function App() {
 
           </div>
 
-          {/* MY REPORTS */}
           <div className="dashboard-card">
 
             <h3>My Reports</h3>
@@ -442,7 +494,6 @@ function App() {
 
           </div>
 
-          {/* RESULT TRENDS */}
           <div className="dashboard-card">
 
             <h3>Result Trends</h3>
@@ -460,7 +511,6 @@ function App() {
 
           </div>
 
-          {/* FOLLOW UPS */}
           <div className="dashboard-card">
 
             <h3>Follow-ups</h3>
@@ -484,7 +534,9 @@ function App() {
     );
   }
 
+  // =========================
   // LOGIN / REGISTER PAGE
+  // =========================
   return (
     <div className="app-container">
 
@@ -515,8 +567,6 @@ function App() {
         </div>
 
         <div className="form-section">
-
-          {/* ACCOUNT TYPE SELECTION */}
 
           {!selectedRole && (
 
@@ -580,8 +630,6 @@ function App() {
             </div>
 
           )}
-
-          {/* LOGIN / REGISTER */}
 
           {selectedRole && (
 
@@ -672,14 +720,10 @@ function App() {
                   </form>
 
                   {message && (
-
                     <div className="message">
                       {message}
                     </div>
-
                   )}
-
-                  {/* REGISTER ONLY FOR PATIENT */}
 
                   {selectedRole === "PATIENT" && (
 
@@ -797,11 +841,9 @@ function App() {
                   </form>
 
                   {message && (
-
                     <div className="message">
                       {message}
                     </div>
-
                   )}
 
                   <div className="switch-text">
