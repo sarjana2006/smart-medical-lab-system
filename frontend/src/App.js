@@ -55,7 +55,7 @@ function App() {
 
     try {
       const response = await axios.post(
-        "https://smart-medical-lab-backend.onrender.com/patient/login",
+        "https://smart-medical-lab-system-production.up.railway.app/patient/login",
         null,
         {
           params: {
@@ -113,7 +113,7 @@ function App() {
 
     try {
       const response = await axios.post(
-        "https://smart-medical-lab-backend.onrender.com/patient/register",
+        "https://smart-medical-lab-system-production.up.railway.app/patient/register",
         registerData
       );
 
@@ -132,10 +132,21 @@ function App() {
       console.error("Registration error:", error);
 
       if (error.response) {
-        setMessage(
-          error.response.data?.message ||
-            `Registration failed. Server returned ${error.response.status}.`
-        );
+
+        // Duplicate email
+        if (error.response.status === 409) {
+          setMessage("Email already registered");
+        }
+
+        // Other server errors
+        else {
+          setMessage(
+            error.response.data?.message ||
+              error.response.data ||
+              `Registration failed. Server returned ${error.response.status}.`
+          );
+        }
+
       } else {
         setMessage(
           "Registration failed. Please check the backend connection and try again."
