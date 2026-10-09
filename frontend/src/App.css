@@ -1690,3 +1690,32 @@ button {
     padding: 22px;
   }
 }
+.password-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.password-field input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.password-toggle {
+  flex-shrink: 0;
+  padding: 10px 12px;
+  border: 1px solid #b0bec5;
+  border-radius: 6px;
+  background: #fff;
+  color: #263238;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.password-toggle:hover {
+  background: #eaf3f5;
+}

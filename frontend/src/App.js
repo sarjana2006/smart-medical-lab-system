@@ -45,7 +45,8 @@ function App() {
 
   const [selectedRole, setSelectedRole] = useState("");
   const [message, setMessage] = useState("");
-
+  const [showLoginPassword, setShowLoginPassword] = useState(false);
+const [showRegisterPassword, setShowRegisterPassword] = useState(false);
   // =========================
   // LOGIN
   // =========================
@@ -708,18 +709,30 @@ function App() {
                       Password
                     </label>
 
-                    <input
-                      type="password"
-                      placeholder="Enter your password"
-                      value={loginData.password}
-                      onChange={(e) =>
-                        setLoginData({
-                          ...loginData,
-                          password: e.target.value
-                        })
-                      }
-                      required
-                    />
+                    <div className="password-field">
+  <input
+    type={showLoginPassword ? "text" : "password"}
+    placeholder="Enter your password"
+    value={loginData.password}
+    onChange={(e) =>
+      setLoginData({
+        ...loginData,
+        password: e.target.value
+      })
+    }
+    required
+  />
+
+  <button
+    type="button"
+    className="password-toggle"
+    onClick={() =>
+      setShowLoginPassword(!showLoginPassword)
+    }
+  >
+    {showLoginPassword ? "Hide" : "Show"}
+  </button>
+</div>
 
                     <button
                       type="submit"
@@ -829,19 +842,30 @@ function App() {
                       Password
                     </label>
 
-                    <input
-                      type="password"
-                      placeholder="Create a password"
-                      value={registerData.password}
-                      onChange={(e) =>
-                        setRegisterData({
-                          ...registerData,
-                          password: e.target.value
-                        })
-                      }
-                      required
-                    />
+                    <div className="password-field">
+  <input
+    type={showRegisterPassword ? "text" : "password"}
+    placeholder="Create a password"
+    value={registerData.password}
+    onChange={(e) =>
+      setRegisterData({
+        ...registerData,
+        password: e.target.value
+      })
+    }
+    required
+  />
 
+  <button
+    type="button"
+    className="password-toggle"
+    onClick={() =>
+      setShowRegisterPassword(!showRegisterPassword)
+    }
+  >
+    {showRegisterPassword ? "Hide" : "Show"}
+  </button>
+</div>
                     <button
                       type="submit"
                       className="main-button"

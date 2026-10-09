@@ -11,7 +11,7 @@ function AdminBookings({ onBack }) {
   const loadBookings = async () => {
     try {
       const response = await axios.get(
-        "https://smart-medical-lab-backend.onrender.com/booking"
+        "https://smart-medical-lab-system-production.up.railway.app/booking"
       );
 
       setBookings(response.data);
@@ -33,7 +33,7 @@ function AdminBookings({ onBack }) {
 
     try {
       await axios.delete(
-        `https://smart-medical-lab-backend.onrender.com/booking/${bookingId}`
+        `https://smart-medical-lab-system-production.up.railway.app/booking/${bookingId}`
       );
 
       setMessage("Booking deleted successfully");
@@ -64,7 +64,7 @@ function AdminBookings({ onBack }) {
   const updateBooking = async () => {
     try {
       await axios.put(
-        `https://smart-medical-lab-backend.onrender.com/booking/${editingBooking.bookingId}`,
+        `https://smart-medical-lab-system-production.up.railway.app/booking/$DIL0`,
         {
           ...editingBooking,
           patientId: Number(editingBooking.patientId),

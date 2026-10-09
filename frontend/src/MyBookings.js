@@ -10,7 +10,7 @@ function MyBookings({ patientId, onBack }) {
   useEffect(() => {
 
     axios
-      .get(`https://smart-medical-lab-backend.onrender.com/booking/patient/${patientId}`)
+    .get(`https://smart-medical-lab-system-production.up.railway.app/booking/patient/${patientId}`)
       .then((response) => {
         setBookings(response.data);
         setLoading(false);

@@ -13,7 +13,7 @@ function TestList({ onBack }) {
   useEffect(() => {
 
     axios
-      .get("https://smart-medical-lab-backend.onrender.com/tests")
+    .get("https://smart-medical-lab-system-production.up.railway.app/tests")
 
       .then((response) => {
         setTests(response.data);

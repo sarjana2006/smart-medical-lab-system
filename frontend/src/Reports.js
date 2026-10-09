@@ -10,7 +10,7 @@ function Reports({ patientId, onBack }) {
   useEffect(() => {
 
     axios
-      .get(`https://smart-medical-lab-backend.onrender.com/report/patient/${patientId}`)
+    .get(`https://smart-medical-lab-system-production.up.railway.app/report/patient/${patientId}`)
       .then((response) => {
 
         setReports(response.data);

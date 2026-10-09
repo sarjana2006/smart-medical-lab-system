@@ -23,7 +23,7 @@ function AdminTests({ onBack }) {
     try {
 
       const response = await axios.get(
-        "https://smart-medical-lab-backend.onrender.com/tests/all"
+        "https://smart-medical-lab-system-production.up.railway.app/tests/all"
       );
 
       setTests(response.data);
@@ -67,7 +67,7 @@ function AdminTests({ onBack }) {
       if (editingId) {
 
         await axios.put(
-          `https://smart-medical-lab-backend.onrender.com/tests/${editingId}`,
+          `https://smart-medical-lab-system-production.up.railway.app/tests/${editingId}`,
           data
         );
 
@@ -76,7 +76,7 @@ function AdminTests({ onBack }) {
       } else {
 
         await axios.post(
-          "https://smart-medical-lab-backend.onrender.com/tests",
+          "https://smart-medical-lab-system-production.up.railway.app/tests",
           data
         );
 
@@ -137,7 +137,7 @@ function AdminTests({ onBack }) {
     try {
 
       await axios.delete(
-        `https://smart-medical-lab-backend.onrender.com/tests/${id}`
+        `https://smart-medical-lab-system-production.up.railway.app/tests/${id}`
       );
 
       setMessage("Test deleted successfully.");

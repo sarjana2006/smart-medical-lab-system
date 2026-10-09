@@ -6,7 +6,7 @@ function FollowUps({ patientId, onBack }) {
 
   useEffect(() => {
     axios
-      .get(`https://smart-medical-lab-backend.onrender.com/followups/patient/${patientId}`)
+    .get(`https://smart-medical-lab-system-production.up.railway.app/booking/patient/${patientId}`)
       .then((response) => {
         setFollowUps(response.data);
       })

@@ -20,7 +20,7 @@ function AdminPatients({ onBack }) {
   const loadPatients = useCallback(async () => {
     try {
       const response = await axios.get(
-        "https://smart-medical-lab-backend.onrender.com/patient",
+        "https://smart-medical-lab-system-production.up.railway.app/patient",
         authConfig
       );
 
@@ -56,7 +56,7 @@ function AdminPatients({ onBack }) {
 
     try {
       await axios.put(
-        `https://smart-medical-lab-backend.onrender.com/patient/${editingPatient.patientId}`,
+        `https://smart-medical-lab-system-production.up.railway.app/patient/${editingPatient.patientId}`,
         {
           name: editingPatient.name,
           email: editingPatient.email,
@@ -81,7 +81,7 @@ function AdminPatients({ onBack }) {
 
     try {
       await axios.delete(
-        `https://smart-medical-lab-backend.onrender.com/patient/${patientId}`,
+        `https://smart-medical-lab-system-production.up.railway.app/patient/${patientId}`,
         authConfig
       );
 

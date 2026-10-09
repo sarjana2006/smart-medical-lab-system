@@ -10,7 +10,7 @@ function ResultTrends({ reportId, onBack }) {
   useEffect(() => {
 
     axios
-      .get(`https://smart-medical-lab-backend.onrender.com/test-result/report/${reportId}`)
+    .get(`https://smart-medical-lab-system-production.up.railway.app/test-result/report/${reportId}`)
       .then((response) => {
         setResults(response.data);
         setLoading(false);
